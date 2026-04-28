@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: ai-sav-rag
+  ai:
+    ollama:
+      chat:
+        options:
+          temperature: '0.2'
+          model: mistral-nemo:latest
+          num-predict: '140'
+      embedding:
+        options:
+          model: nomic-embed-text:latest
+      base-url: https://ollama-api.apps.ocpdev.attijariwafa.net
+  datasource:
+    password: n
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    url: jdbc:postgresql://localhost:5432/aisav_db
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: 'true'
+    open-in-view: 'false'
+server:
+  port: '8081'
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+internal:
+  api-key: ${INTERNAL_API_KEY:dev-internal-key-123}
+
+logging:
+  level:
+    com.aisav.rag: DEBUG
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
