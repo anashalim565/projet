@@ -1,0 +1,47 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: ai-sav-api
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/aisav_db
+    username: postgres
+    password: n
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+jwt:
+  private-key-path: ./secrets/private_pkcs8.pem
+  public-key-path: ./secrets/public.pem
+  access-expiry-ms: 900000
+  refresh-expiry-ms: 28800000
+
+internal:
+  api-key: ${INTERNAL_API_KEY:dev-internal-key-123}
+
+services:
+  forecast:
+    url: http://localhost:8002
+  criticality:
+    url: http://localhost:8001
+  rag:
+    url: http://localhost:8082
+  batch:
+    url: http://localhost:8082
+
+app:
+  cors:
+    allowed-origins: http://localhost:5173, http://127.0.0.1:5173
+  security:
+    refresh-cookie-secure: false
